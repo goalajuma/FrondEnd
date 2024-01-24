@@ -11,8 +11,8 @@ import PropTypes from "prop-types";
  *
  **/
 
-const SearchModal = ({ onClose, maskClosable }) => {
-  const onMaskClick = (e) => {
+const SearchModal = ({ onClose, maskClosable} : { onClose: (e: MouseEvent) => void, maskClosable: boolean}) => {
+  const onMaskClick = (e : MouseEvent) => {
     // target : 모달 배경, currentTarget : 유저가 클릭한 것
     if (e.target === e.currentTarget) {
       onClose(e);

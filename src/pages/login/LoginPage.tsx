@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 import InputGroup from "@/components/login/InputGroup";
 import Button from "@/components/login/Button";
@@ -13,10 +14,10 @@ import { isLoginInState } from "@/utils/AuthAtom";
 
 const LoginPage = () => {
   const setisLoginIn = useSetRecoilState(isLoginInState);
-  const [value, setValue] = useState({ email: "", password: "" });
+  const [value, setValue] = React.useState<{ [key: string]: string }>({});
   const navigate = useNavigate();
 
-  const handleOnChange = (e: any) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setValue((prev) => ({ ...prev, [id]: value }));
   };
@@ -33,14 +34,14 @@ const LoginPage = () => {
           window.location.reload();
         })
         .catch((err: any) => {
-          alert(err.data.message);
+          alert(err.message || "An error occurred");
         });
     } else {
       alert("입력 내용이 올바르지 않습니다.");
     }
   };
 
-  const handleEnterKey = (e: any) => {
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleLogin();
     }

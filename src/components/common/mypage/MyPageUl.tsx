@@ -2,7 +2,6 @@ import styled from "styled-components";
 import MypageMainLi from "./MypageMainLi";
 import { useNavigate } from "react-router-dom";
 import route from "@/routes";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import ProfileModal from "@/pages/my/ProfileModal";
@@ -15,7 +14,19 @@ import ProfileModal from "@/pages/my/ProfileModal";
  * @return {JSX.Element}
  */
 
-const MyPageUl = ({ votingNumber, questionNumber, data }) => {
+interface MyPageUlProps {
+  votingNumber: number;
+  questionNumber: number;
+  data: {
+    nickname: string;
+    email: string;
+  };
+}
+const MyPageUl: React.FC<MyPageUlProps> = ({
+  votingNumber,
+  questionNumber,
+  data,
+}) => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(false);
 
@@ -57,11 +68,6 @@ const MyPageUl = ({ votingNumber, questionNumber, data }) => {
   );
 };
 
-MyPageUl.propTypes = {
-  votingNumber: PropTypes.number.isRequired,
-  questionNumber: PropTypes.number.isRequired,
-  data: PropTypes.object.isRequired,
-};
 const MyUlStyle = styled.ul`
   display: flex;
   flex-direction: column;

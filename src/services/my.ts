@@ -12,13 +12,13 @@ export const myvoteInquire = () => {
   return instance.get(`/users/votes/ask`);
 };
 
-export const newNameInquire = (payload) => {
+export const newNameInquire = (payload: string) => {
   return instance.patch("/users/nickname", {
     nickname: payload,
   });
 };
 
-export const newEmailInquire = (payload) => {
+export const newEmailInquire = (payload: string) => {
   return instance.patch("/users/email", {
     email: payload,
   });

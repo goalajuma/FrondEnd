@@ -1,7 +1,7 @@
+import React from "react";
 import styled from "styled-components";
 import { Palette } from "@/styles/Palette";
 import { useState } from "react";
-import PropTypes from "prop-types";
 import useValid from "@/hooks/useValid";
 import { useSetRecoilState } from "recoil";
 import { isLoginInState } from "@/utils/AuthAtom";
@@ -17,24 +17,37 @@ import { emailCheckInquire, nicknameCheckInquire } from "@/services/signup";
  * @param {string} img
  * @returns
  */
+interface ProfileModalProps {
+  myNickName: string;
+  myEmail: string;
+  img?: string;
+}
 
-const ProfileModal = ({ myNickName, myEmail, img }) => {
-  const [newInfo, setNewInfo] = useState({
+const ProfileModal: React.FC<ProfileModalProps> = ({
+  myNickName,
+  myEmail,
+  img,
+}) => {
+  const [newInfo, setNewInfo] = useState<{
+    name: string;
+    email: string;
+    password: string;
+  }>({
     name: myNickName,
     email: myEmail,
     password: "",
   });
-  const [input, setInput] = useState(false);
+  const [input, setInput] = React.useState<boolean>(false);
   const { validText, isValid } = useValid(newInfo);
-  const [checkName, setCheckName] = useState(false);
-  const [checkEmail, setCheckEmail] = useState(false);
+  const [checkName, setCheckName] = React.useState<boolean>(false);
+  const [checkEmail, setCheckEmail] = React.useState<boolean>(false);
   const setisLoginIn = useSetRecoilState(isLoginInState);
 
   const handleMyInfo = () => {
     setInput((prev) => !prev);
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setNewInfo((prev) => ({ ...prev, [id]: value }));
     if (id === "name") {
@@ -147,7 +160,7 @@ const ProfileModal = ({ myNickName, myEmail, img }) => {
         {input && (
           <StyledButton
             onClick={nicknameCheck}
-            disabled={(newInfo.name === myNickName) || !newInfo.name}
+            disabled={newInfo.name === myNickName || !newInfo.name}
           >
             중복 검사
           </StyledButton>
@@ -164,7 +177,9 @@ const ProfileModal = ({ myNickName, myEmail, img }) => {
         {input && (
           <StyledButton
             onClick={emailCheck}
-            disabled={(newInfo.email === myEmail) || !newInfo.email || !isValid.isEmail}
+            disabled={
+              newInfo.email === myEmail || !newInfo.email || !isValid.isEmail
+            }
           >
             중복 검사
           </StyledButton>
@@ -176,9 +191,11 @@ const ProfileModal = ({ myNickName, myEmail, img }) => {
           <SubmitButton
             onClick={() => handleSubmit()}
             disabled={
-              !((checkName && newInfo.email === myEmail) ||
-              (checkEmail && newInfo.name === myNickName)||
-              (checkEmail && checkName))
+              !(
+                (checkName && newInfo.email === myEmail) ||
+                (checkEmail && newInfo.name === myNickName) ||
+                (checkEmail && checkName)
+              )
             }
           >
             저장
@@ -189,12 +206,6 @@ const ProfileModal = ({ myNickName, myEmail, img }) => {
       </ButtonBox>
     </div>
   );
-};
-
-ProfileModal.propTypes = {
-  myNickName: PropTypes.string.isRequired,
-  myEmail: PropTypes.string.isRequired,
-  img: PropTypes.string,
 };
 
 const InputBox = styled.div`

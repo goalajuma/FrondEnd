@@ -9,9 +9,9 @@ import routes from "@/routes";
 import { useRef, useState } from "react";
 
 const SearchInput = () => {
-  let { query } = useParams("");
+  let { query } = useParams();
   const navigate = useNavigate();
-  const searchRef = useRef();
+  const searchRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState(query);
   const goToSearch = () => {
     if (value === "") {
@@ -20,13 +20,13 @@ const SearchInput = () => {
     }
     navigate(`${routes.search}${value}`);
   };
-  const searchOnChange = (e) => {
+  const searchOnChange = (e : React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
   return (
     <>
-      <SearchStyle onSubmit={(e) => goToSearch(e)}>
+      <SearchStyle onSubmit={(e) => goToSearch()}>
         <Icon
           size="21px"
           color={Palette.point_blue}
@@ -45,14 +45,16 @@ const SearchInput = () => {
           autoFocus
           ref={searchRef}
         />
-        {value && focus ? (
+        {value ? (
           <Icon
             size="14px"
             className="searchXIcon"
             color={Palette.font_gray}
             onClick={() => {
               setValue("");
-              searchRef.current.focus();
+              if(searchRef.current) {
+                searchRef.current.focus();
+              }
             }}
           >
             <AiOutlineClose />
@@ -63,7 +65,7 @@ const SearchInput = () => {
         <Icon
           size="23px"
           color={Palette.point_blue}
-          onClick={(e) => goToSearch(e)}
+          onClick={(e : MouseEvent) => goToSearch()}
           className="searchIcon"
         >
           <FaSearch />

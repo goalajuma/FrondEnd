@@ -1,17 +1,12 @@
 {
   "exclude": ["node_modules"],
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/**/*.ts",
-    "**/**/*.tsx",
-    "src/pages/search/SearchPage.jsx"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "**/**/*.ts", "**/**/*.tsx"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
+    "jsx": "react",
     "jsx": "react-jsx",
     "target": "es2016",
     "module": "commonjs",

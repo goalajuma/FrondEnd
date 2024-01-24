@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import Portal from "./Portal";
 import { GoX } from "react-icons/go";
 
@@ -14,6 +14,15 @@ import { GoX } from "react-icons/go";
  * @param {boolean} param.closable
  *
  * */
+interface ModalProps {
+  className?: string;
+  visible: boolean;
+  children: ReactNode;
+  onClose: (e: React.MouseEvent<HTMLElement>) => void;
+  maskClosable: boolean;
+  closable: boolean;
+}
+
 function Modal({
   className,
   visible,
@@ -21,14 +30,14 @@ function Modal({
   onClose, // 모달 보임 유무 결정
   maskClosable, // close 아이콘 유무 결정
   closable, //dimmed 처리된 영역 클릭했을 때 모달 닫힘 결정
-}) {
-  const onMaskClick = (e) => {
+}: ModalProps) {
+  const onMaskClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (e.target === e.currentTarget) {
       onClose(e);
     }
   };
 
-  const close = (e) => {
+  const close: React.MouseEventHandler<SVGElement> = (e) => {
     if (onClose) {
       onClose(e);
     }
@@ -46,11 +55,11 @@ function Modal({
     <Portal elementId="modal">
       <ModalWrapper
         className={className}
-        onClick={maskClosable ? onMaskClick : null}
-        tabIndex="-1"
+        onClick={maskClosable ? onMaskClick : undefined}
+        tabIndex={-1}
         visible={visible}
       >
-        <ModalInner tabIndex="0" className="modal-inner">
+        <ModalInner tabIndex={0} className="modal-inner">
           {closable && (
             <GoX
               className="modal-close"
@@ -65,16 +74,11 @@ function Modal({
   );
 }
 
-Modal.propTypes = {
-  visible: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  onClose: PropTypes.func,
-  maskClosable: PropTypes.bool,
-  closable: PropTypes.bool,
-};
+export interface ModalWrapperProps {
+  visible: boolean;
+}
 
-export const ModalWrapper = styled.div`
+export const ModalWrapper = styled.div<ModalWrapperProps>`
   box-sizing: border-box;
   display: ${(props) => (props.visible ? "block" : "none")};
   position: fixed;
