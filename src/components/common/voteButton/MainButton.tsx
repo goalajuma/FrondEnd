@@ -3,10 +3,10 @@ import { MainButtonSt, BtnContents } from "@/styles/VotingBtnStyle";
 import PercentNumber from "./PercentNumber";
 import styled from "styled-components";
 import Img from "../Img";
-import PropTypes from "prop-types";
 import Alert from "../Alert";
 import { changeOption, deleteVote, vote } from "@/services/vote";
 import Swal from "sweetalert2";
+import { buttonProps } from "./ButtonLayout";
 
 /**
  * @param {object} props
@@ -22,6 +22,17 @@ import Swal from "sweetalert2";
  * @param {function} props.onClick 투표시 실행. 참여 여부 변경
  */
 
+interface buttonProp extends buttonProps {
+  choiced: boolean;
+  value: number;
+  number: number;
+  name: string;
+  id: number;
+  src: string;
+  isOwner: boolean;
+  onClick: () => void;
+}
+
 const MainButton = ({
   choiced,
   value,
@@ -34,12 +45,12 @@ const MainButton = ({
   active,
   voteId,
   changeVotes,
-}) => {
+}: buttonProp) => {
   const login = localStorage.getItem("token");
   const [alert, setIsAlert] = useState(false);
   const buttonActive = isOwner || participate || active === "complete";
 
-  const clickButton = (e) => {
+  const clickButton = (e: ClickEvent<HTMLButtonElement>) => {
     if (active === "complete") {
       setIsAlert(true);
     }
@@ -130,21 +141,6 @@ const MainButton = ({
       </ButtonContainer>
     </>
   );
-};
-
-MainButton.propTypes = {
-  choiced: PropTypes.bool.isRequired,
-  value: PropTypes.number.isRequired,
-  number: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.number.isRequired,
-  src: PropTypes.string.isRequired,
-  participate: PropTypes.bool.isRequired,
-  isOwner: PropTypes.bool.isRequired,
-  active: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  voteId: PropTypes.number.isRequired,
-  changeVotes: PropTypes.func,
 };
 
 const ButtonContainer = styled.div`
