@@ -50,7 +50,7 @@ const MainButton = ({
   const [alert, setIsAlert] = useState(false);
   const buttonActive = isOwner || participate || active === "complete";
 
-  const clickButton = (e: ClickEvent<HTMLButtonElement>) => {
+  const clickButton = (e: any) => {
     if (active === "complete") {
       setIsAlert(true);
     }
