@@ -153,5 +153,8 @@ const useValid = (initialValue: InitialValue) => {
     validText.nameText,
     validText.emailText,
   ]);
+
+  return { validText, isValid };
 };
+
 export default useValid;

@@ -12,8 +12,8 @@ import styled from "styled-components";
  */
 
 export interface buttonProps {
-  changeVotes: () => void;
-  options: [];
+  changeVotes: (a: boolean, b: string) => void;
+  options?: [];
   participate: boolean;
   isOwner: boolean;
   active: string;

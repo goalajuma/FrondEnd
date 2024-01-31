@@ -23,14 +23,14 @@ import { buttonProps } from "./ButtonLayout";
  */
 
 interface buttonProp extends buttonProps {
-  choiced: boolean;
+  choiced?: boolean;
   value: number;
   number: number;
   name: string;
   id: number;
   src: string;
   isOwner: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const MainButton = ({
@@ -110,7 +110,7 @@ const MainButton = ({
         )
       ) : null}
 
-      <ButtonContainer id={voteId}>
+      <ButtonContainer id={String(voteId)}>
         {src && <Img src={src} server={true} />}
 
         <MainButtonSt
@@ -123,7 +123,7 @@ const MainButton = ({
             {name}
           </BtnContents>
           <progress
-            id={id}
+            id={String(id)}
             max="100"
             value={buttonActive ? value : 0}
           ></progress>

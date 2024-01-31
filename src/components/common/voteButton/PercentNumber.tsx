@@ -1,5 +1,4 @@
 import { PercentNnumberSt } from "@/styles/VotingBtnStyle";
-import PropTypes from "prop-types";
 
 /**
  * @param {object} props
@@ -7,7 +6,13 @@ import PropTypes from "prop-types";
  * @param {number} props.value 버튼 안에 퍼센트
  * @param {number} props.number 투표 참여자 수
  */
-const PercentNumber = ({ value, number, choice }) => {
+interface PercentNumberProps {
+  value: number;
+  number: number;
+  choice?: boolean;
+  id?: number;
+}
+const PercentNumber = ({ value, number, choice }: PercentNumberProps) => {
   return (
     <PercentNnumberSt choice={choice}>
       <p>{value}%</p>
@@ -16,9 +21,4 @@ const PercentNumber = ({ value, number, choice }) => {
   );
 };
 
-PercentNumber.propTypes = {
-  value: PropTypes.number.isRequired,
-  number: PropTypes.number.isRequired,
-  choice: PropTypes.bool.isRequired,
-};
 export default PercentNumber;
