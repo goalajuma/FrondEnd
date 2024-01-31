@@ -2,19 +2,21 @@ import ActiveSign from "./ActiveSign";
 import { GoChevronRight } from "react-icons/go";
 import styled from "styled-components";
 import { Palette } from "@/styles/Palette";
-import PropTypes from "prop-types";
 import Modal from "../modal/Modal";
 import ModalLayout from "../modal/ModalLayout";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-/**
- * @param {object} prop
- * @param {object} prop.data
- * @param {string} prop.route
- * @returns {JSX.Element}
- */
-const MyVoteList = ({ data, route }) => {
+interface MyVoteListProps {
+  data: {
+    id: string;
+    active: string;
+    title: string;
+  };
+  route?: string;
+}
+
+const MyVoteList: React.FC<MyVoteListProps> = ({ data, route = "" }) => {
   const navigate = useNavigate();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -58,14 +60,9 @@ const MyVoteList = ({ data, route }) => {
   );
 };
 
-MyVoteList.propTypes = {
-  data: PropTypes.object.isRequired,
-  route: PropTypes.string,
-};
 const MyVote = styled.div`
   height: 4rem;
   display: flex;
-  /* border-top: 1px solid ${Palette.percent_gray}; */
   border-bottom: 1px solid ${Palette.percent_gray};
   position: relative;
   cursor: pointer;
@@ -73,6 +70,7 @@ const MyVote = styled.div`
     background-color: ${Palette.percent_gray};
   }
 `;
+
 const VoteInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -85,6 +83,7 @@ const VoteInfo = styled.div`
     text-align: left;
   }
 `;
+
 const Vote = styled.div`
   position: absolute;
   right: 10px;

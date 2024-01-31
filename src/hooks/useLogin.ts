@@ -2,13 +2,15 @@ import { refreshTokenInquire, removeToken } from "@/services/login";
 import { useRecoilState } from "recoil";
 import { isLoginInState } from "@/utils/AuthAtom";
 
-const useLogin = () => {
+const useLogin = (): boolean => {
   const [isLoginIn, setisLoginIn] = useRecoilState(isLoginInState);
 
   const accessToken = localStorage.getItem("token");
-  const expiredTime = new Date(parseInt(localStorage.getItem("expiredTime"))); // accessToken 만료 시간
+  const expiredTime = new Date(
+    parseInt(localStorage.getItem("expiredTime") as string)
+  ); // accessToken 만료 시간
   const refreshExpiredTime = new Date(
-    parseInt(localStorage.getItem("refreshExpiredTime"))
+    parseInt(localStorage.getItem("refreshExpiredTime") as string)
   );
   const currentTime = new Date();
   const isAccessToken = accessToken && accessToken !== "";
