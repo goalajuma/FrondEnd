@@ -44,7 +44,6 @@ const useValid = (initialValue: InitialValue) => {
       }));
       setIsValid((prevIsValid) => ({ ...prevIsValid, isName: false }));
     } else {
-      console.log("hihihihihihi");
       setValidText((prevValidText) => ({
         ...prevValidText,
         nameText: "",
