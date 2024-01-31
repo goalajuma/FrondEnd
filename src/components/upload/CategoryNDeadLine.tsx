@@ -36,6 +36,7 @@ export const deadline = [
   { name: "12시간 후", value: 720 },
   { name: "1일 후", value: 1440 },
   { name: "3일 후", value: 4320 },
+  { name: "∞", value: 9999 },
 ];
 
 const Container = styled.div`

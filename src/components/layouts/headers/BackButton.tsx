@@ -11,9 +11,10 @@ import PropTypes from "prop-types";
  * @param {boolean} props.upload
  */
 
-const BackButton = ({ upload } : {upload: boolean}) => {
+const BackButton = ({ upload }: { upload: boolean }) => {
   const navigate = useNavigate();
-  const route : string  = upload ? "-1"  : routes.mypage;
+  const route: string = upload ? "-1" : routes.mypage;
+
   return (
     <div>
       <Back>

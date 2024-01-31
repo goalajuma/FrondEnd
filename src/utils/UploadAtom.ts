@@ -5,6 +5,11 @@ export interface OptionTypes {
   image?: string;
 }
 
+export const anonymousState = atom<boolean>({
+  key: "anonymousState",
+  default: true,
+});
+
 export const titleState = atom<string>({
   key: "titleState",
   default: "",
@@ -42,6 +47,7 @@ export const uploadSelector = selector({
       category: get(categoryState),
       timeLimit: get(timeLimitState),
       options: get(optionState),
+      voteAnonymous: get(anonymousState),
     };
   },
   set: ({ set }, value) => {
@@ -51,7 +57,8 @@ export const uploadSelector = selector({
       set(titleState, value),
       set(categoryState, value),
       set(timeLimitState, value),
-      set(optionState, value)
+      set(optionState, value),
+      set(anonymousState, value)
     );
   },
 });

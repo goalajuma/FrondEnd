@@ -21,7 +21,7 @@ const UploadButton = () => {
   useEffect(() => {
     if (!!count.title && count.options.length > 1) {
       const act = count.options.filter((item: any) => {
-        return item.name === "";
+        return item.name === "" && item.image === "";
       });
       setActive(Number(!act.length) > 0);
     }
@@ -31,7 +31,6 @@ const UploadButton = () => {
   }, [count]);
 
   const uploadButton = async () => {
-    console.log(doOnce);
     if (active && doOnce) {
       setDoOnce(false);
       const payload = count;

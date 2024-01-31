@@ -55,7 +55,7 @@ const Option: React.FC<OptionProps> = ({ datas, name }) => {
       setCategoryState(value);
       setList(!list);
     } else {
-      setTimeLimitState(Number(value));
+      setTimeLimitState(value);
       setList(!list);
     }
   };

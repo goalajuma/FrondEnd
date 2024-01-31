@@ -1,6 +1,7 @@
 // 투표 등록 페이지 헤더
 import styled from "styled-components";
 import BackButton from "./BackButton";
+import Anonymous from "@/components/upload/Anonymous";
 
 const UploadPageHeader = () => {
   return (
