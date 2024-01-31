@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { detailInquire } from "@/services/main";
 import { useQuery } from "@tanstack/react-query";
@@ -11,13 +10,18 @@ import ModalTemplate from "./ModalTemplate";
  * @param {string} props.what
  * @param {object} props.click
  */
+interface ModalLayoutProps {
+  what?: string;
+  click?: () => void;
+  id?: string;
+}
 
-const ModalLayout = ({ what, click }) => {
-  const { id } = useParams();
+const ModalLayout: React.FC<ModalLayoutProps> = ({ what, click }) => {
+  const { id } = useParams<{ id: string }>();
   const datas = useQuery({
     queryKey: ["voteId", id],
     queryFn: () => {
-      return detailInquire(id);
+      return detailInquire(id as string);
     },
     enabled: !!id,
   });
@@ -35,8 +39,8 @@ const ModalLayout = ({ what, click }) => {
             detailData && (
               <ModalTemplate
                 detailData={detailData}
-                click={click}
-                what={what}
+                click={click!}
+                what={what as string}
               ></ModalTemplate>
             )
           )}
@@ -44,11 +48,6 @@ const ModalLayout = ({ what, click }) => {
       )}
     </>
   );
-};
-
-ModalLayout.propTypes = {
-  what: PropTypes.string,
-  click: PropTypes.func,
 };
 
 export default ModalLayout;

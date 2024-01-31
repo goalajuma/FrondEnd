@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import { Palette } from "@/styles/Palette";
-import PropTypes from "prop-types";
 
 /**
  *@param {string} prop
  * @param {string} prop.active
  * @return {JSX.Element}
  */
-const ActiveSign = ({ active }) => {
+
+interface ActiveSignProps {
+  active: string;
+}
+const ActiveSign: React.FC<ActiveSignProps> = ({ active }) => {
   return (
     <>
       {active === "continue" ? (
@@ -17,10 +20,6 @@ const ActiveSign = ({ active }) => {
       )}
     </>
   );
-};
-
-ActiveSign.propTypes = {
-  active: PropTypes.string,
 };
 
 const Label = styled.div`

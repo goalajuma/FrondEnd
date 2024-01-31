@@ -37,7 +37,7 @@ const useValid = (initialValue: InitialValue) => {
 
   // name validation
   useEffect(() => {
-    if (!initialValue.name) {
+    if (initialValue.name === undefined) {
       setValidText((prevValidText) => ({
         ...prevValidText,
         nameText: "닉네임은 필수 입력사항입니다",
@@ -45,20 +45,12 @@ const useValid = (initialValue: InitialValue) => {
       setIsValid((prevIsValid) => ({ ...prevIsValid, isName: false }));
     } else {
       setValidText((prevValidText) => ({
+        ...prevValidText,
         nameText: "",
-        emailText: prevValidText.emailText,
-        passwordText: prevValidText.passwordText,
-        passwordConfirmText: prevValidText.passwordConfirmText,
       }));
       setIsValid((prevIsValid) => ({ ...prevIsValid, isName: true }));
     }
-  }, [
-    initialValue.name,
-    validText.emailText,
-    validText.nameText,
-    validText.passwordText,
-    validText.passwordConfirmText,
-  ]);
+  }, [initialValue.name]);
 
   // email validation
   useEffect(() => {
@@ -71,20 +63,12 @@ const useValid = (initialValue: InitialValue) => {
       setIsValid((prevIsValid) => ({ ...prevIsValid, isEmail: false }));
     } else {
       setValidText((prevValidText) => ({
-        nameText: prevValidText.nameText,
+        ...prevValidText,
         emailText: "",
-        passwordText: prevValidText.passwordText,
-        passwordConfirmText: prevValidText.passwordConfirmText,
       }));
       setIsValid((prevIsValid) => ({ ...prevIsValid, isEmail: true }));
     }
-  }, [
-    initialValue.email,
-    validText.nameText,
-    validText.passwordText,
-    validText.passwordConfirmText,
-    isValid.isEmail, // 이 부분을 추가하여 이전의 isEmail 상태를 의존성 배열에 포함
-  ]);
+  }, [initialValue.email]);
 
   // password validation
   useEffect(() => {
@@ -110,14 +94,7 @@ const useValid = (initialValue: InitialValue) => {
       }));
       setIsValid((prevIsValid) => ({ ...prevIsValid, isPassword: true }));
     }
-  }, [
-    initialValue.password,
-    validText.passwordText,
-    isValid.isPassword,
-    validText.nameText,
-    validText.emailText,
-    validText.passwordConfirmText,
-  ]);
+  }, [initialValue.password]);
 
   // passwordConfirm validation
   useEffect(() => {
@@ -135,9 +112,7 @@ const useValid = (initialValue: InitialValue) => {
       }));
     } else {
       setValidText((prevValidText) => ({
-        nameText: prevValidText.nameText,
-        emailText: prevValidText.emailText,
-        passwordText: prevValidText.passwordText,
+        ...prevValidText,
         passwordConfirmText: initialValue.passwordConfirm
           ? ""
           : prevValidText.passwordConfirmText,
@@ -147,12 +122,7 @@ const useValid = (initialValue: InitialValue) => {
         isPasswordConfirm: initialValue.passwordConfirm ? true : false,
       }));
     }
-  }, [
-    initialValue.passwordConfirm,
-    initialValue.password,
-    validText.nameText,
-    validText.emailText,
-  ]);
+  }, [initialValue.passwordConfirm]);
 
   return { validText, isValid };
 };
