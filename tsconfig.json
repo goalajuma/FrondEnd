@@ -1,6 +1,12 @@
 {
   "exclude": ["node_modules"],
-  "include": ["**/*.ts", "**/*.tsx", "**/**/*.ts", "**/**/*.tsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/**/*.ts",
+    "**/**/*.tsx",
+    "src/components/upload/UploadButton.jsx"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

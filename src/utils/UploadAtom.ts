@@ -2,7 +2,7 @@ import { atom, selector } from "recoil";
 
 export interface OptionTypes {
   name: string;
-  image?: string;
+  image?: string | null;
 }
 
 export const anonymousState = atom<boolean>({
@@ -33,8 +33,8 @@ export const timeLimitState = atom({
 export const optionState = atom<OptionTypes[]>({
   key: "optionState",
   default: [
-    { name: "", image: "" },
-    { name: "", image: "" },
+    { name: "", image: null },
+    { name: "", image: null },
   ],
 });
 

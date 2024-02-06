@@ -86,5 +86,6 @@ instance.interceptors.response.use(
       // error.response가 없거나 status가 없는 경우에 대한 처리
       return Promise.reject(error);
     }
+    return Promise.reject(error);
   }
 );

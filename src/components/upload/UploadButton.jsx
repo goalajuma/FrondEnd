@@ -11,16 +11,33 @@ import Swal from "sweetalert2";
 
 const UploadButton = () => {
   const navigate = useNavigate();
-  const [count, setCount] = useRecoilState<any>(uploadSelector);
+  const [count, setCount] = useRecoilState(uploadSelector);
   const resetList = useResetRecoilState(uploadSelector);
   const [active, setActive] = useState(false);
   const [doOnce, setDoOnce] = useState(true);
-  const mutation = useMutation({
-    mutationFn: (payload: number) => uploadVote(payload),
+
+  const { mutate: mutation } = useMutation({
+    mutationFn: (payload) => uploadVote(payload),
+    onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        text: "업로드 완료",
+      }).then(() => {
+        resetList();
+        navigate(routes.home);
+        location.reload();
+      });
+      navigate(routes.home);
+      setDoOnce(true);
+    },
+    onError: (res) => {
+      alert(res?.response?.data.message);
+    },
   });
+
   useEffect(() => {
     if (!!count.title && count.options.length > 1) {
-      const act = count.options.filter((item: any) => {
+      const act = count.options.filter((item) => {
         return item.name === "" && item.image === "";
       });
       setActive(Number(!act.length) > 0);
@@ -34,23 +51,7 @@ const UploadButton = () => {
     if (active && doOnce) {
       setDoOnce(false);
       const payload = count;
-      await mutation.mutate(payload, {
-        onSuccess: () => {
-          Swal.fire({
-            icon: "success",
-            text: "업로드 완료",
-          }).then(() => {
-            resetList();
-            navigate(routes.home);
-            location.reload();
-          });
-          navigate(routes.home);
-          setDoOnce(true);
-        },
-        onError: (error: any) => {
-          alert(error?.data.message);
-        },
-      });
+      await mutation(payload);
     }
   };
 
@@ -65,7 +66,8 @@ const UploadButton = () => {
   );
 };
 
-const UploadButtonStyle = styled.div<{ active: boolean }>`
+const UploadButtonStyle = styled.div`
+  // { active: boolean } > // <
   .uploadBtn {
     background-color: ${(prop) =>
       prop.active ? Palette["button_blue"] : Palette["percent_gray"]};

@@ -19,7 +19,7 @@ export interface ChoiceOptionProps {
   data: OptionTypes;
   inputOption: (event: React.ChangeEvent<HTMLInputElement>) => void;
   deleteOption: (event: React.MouseEvent<HTMLDivElement>) => void;
-  src?: string;
+  src?: string | null;
 }
 
 const ChoiceOption = ({
