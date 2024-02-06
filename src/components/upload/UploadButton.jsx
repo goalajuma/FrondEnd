@@ -15,15 +15,32 @@ const UploadButton = () => {
   const resetList = useResetRecoilState(uploadSelector);
   const [active, setActive] = useState(false);
   const [doOnce, setDoOnce] = useState(true);
-  const mutation = useMutation({
+
+  const { mutate: mutation } = useMutation({
     mutationFn: (payload) => uploadVote(payload),
+    onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        text: "업로드 완료",
+      }).then(() => {
+        resetList();
+        navigate(routes.home);
+        location.reload();
+      });
+      navigate(routes.home);
+      setDoOnce(true);
+    },
+    onError: (res) => {
+      alert(res?.response?.data.message);
+    },
   });
+
   useEffect(() => {
     if (!!count.title && count.options.length > 1) {
       const act = count.options.filter((item) => {
-        return item.name === "";
+        return item.name === "" && item.image === "";
       });
-      setActive(!act.length > 0);
+      setActive(Number(!act.length) > 0);
     }
     if (count.options.length < 2 || !count.title) {
       setActive(false);
@@ -31,27 +48,10 @@ const UploadButton = () => {
   }, [count]);
 
   const uploadButton = async () => {
-    console.log(doOnce);
     if (active && doOnce) {
       setDoOnce(false);
       const payload = count;
-      await mutation.mutate(payload, {
-        onSuccess: () => {
-          Swal.fire({
-            icon: "success",
-            text: "업로드 완료",
-          }).then(() => {
-            resetList();
-            navigate(routes.home);
-            location.reload();
-          });
-          navigate(routes.home);
-          setDoOnce(true);
-        },
-        onError: (error) => {
-          alert(error?.data.message);
-        },
-      });
+      await mutation(payload);
     }
   };
 
@@ -67,6 +67,7 @@ const UploadButton = () => {
 };
 
 const UploadButtonStyle = styled.div`
+  // { active: boolean } > // <
   .uploadBtn {
     background-color: ${(prop) =>
       prop.active ? Palette["button_blue"] : Palette["percent_gray"]};

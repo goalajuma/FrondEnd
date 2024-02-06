@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
  * @param {string} param.positionLeft 토스트창 위치 수정(positionLeft)
  */
 
-const Alert = ({ children, setIsAlert, positionLeft }) => {
+const Alert = ({ children, setIsAlert, toast, positionLeft }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsAlert(false);
@@ -18,7 +18,7 @@ const Alert = ({ children, setIsAlert, positionLeft }) => {
     return () => {
       clearTimeout(timer);
     };
-  }, [setIsAlert]);
+  }, [toast]);
   return <Container left={positionLeft}>{children}</Container>;
 };
 Alert.propTypes = {

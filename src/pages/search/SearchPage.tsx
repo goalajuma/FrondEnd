@@ -1,32 +1,28 @@
+import { CategoryBox } from "@/components/layouts/headers/CategoryBox";
+import SearchInput from "@/components/search/SearchInput";
 import { HomeContainer } from "@/styles/Container";
-import Main from "@/components/layouts/headers/Main";
 import Footer from "@/components/layouts/footers/Footer";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { mainInquire } from "@/services/main";
-import { useEffect, useRef } from "react";
-import { useRecoilValue, useRecoilState } from "recoil";
-import {
-  segmentState,
-  sortState,
-  totalCategoryState,
-} from "@/utils/HeaderAtom";
 import HomeTemplate from "@/components/template/HomeTemplate";
+import { useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import Loader from "@/assets/Loader";
-import ErrorScreen from "@/components/common/ErrorScreen";
+import { search } from "@/services/search";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { totalCategoryState } from "@/utils/HeaderAtom";
+import styled from "styled-components";
 import NonePage from "@/components/common/NonePage";
-import Alert from "@/components/common/Alert";
-import { isToastState } from "@/utils/ToastAtom";
-import PropTypes from "prop-types";
 
-/**
- * @param {object} prop
- * @param {boolean} prop.modal
- */
-const MainPage = ({ modal }) => {
-  const [toast, setToast] = useRecoilState(isToastState);
-  const categoryData = useRecoilValue(totalCategoryState);
-
+interface SearchData {
+  data: {
+    
+  }
+}
+const SearchPage = () => {
   const bottomObserver = useRef(null);
+  const categoryData = useRecoilValue(totalCategoryState);
+  let { query } = useParams();
 
   const {
     fetchNextPage,
@@ -35,10 +31,9 @@ const MainPage = ({ modal }) => {
     isLoading,
     data,
     isFetching,
-    error,
   } = useInfiniteQuery({
-    queryKey: ["mainInfo", categoryData],
-    queryFn: ({ pageParam = 0 }) => mainInquire(categoryData, pageParam),
+    queryKey: ["searchInfo", categoryData],
+    queryFn: ({ pageParam = 0 }) => search(categoryData, query, pageParam),
     getNextPageParam: (lastPage, allPages) => {
       const nextPage = allPages.length;
       const isLast = lastPage?.data.data.isLast;
@@ -80,43 +75,39 @@ const MainPage = ({ modal }) => {
   const Data = data?.pages.flatMap((param) => param.data.data.votes);
 
   return (
-    <>
-      {toast && (
-        <Alert margin="2rem" setIsAlert={setToast} toast={toast}>
-          {" "}
-          게시글이 등록되었습니다.{" "}
-        </Alert>
-      )}
-      <Main page="main" />
-      {isLoading ? (
+    <HomeContainer>
+      <SearchWrapper>
+        <SearchInput></SearchInput>
+      </SearchWrapper>
+      <CategoryBox />
+      {isFetching ? (
         <Loader />
       ) : (
-        <>
+        query && (
           <HomeContainer>
-            {error ? (
-              <ErrorScreen error={error}></ErrorScreen>
-            ) : !Data?.length ? (
-              <NonePage what="main" />
+            {!Data?.length ? (
+              <NonePage what="research" query={query} />
             ) : (
               <>
-                <HomeTemplate
-                  datas={Data}
-                  isFetching={isFetching}
-                  modal={modal}
-                />
+                <HomeTemplate datas={Data} isFetching={isFetching} />
                 <div ref={bottomObserver}></div>
                 {isFetching && <Loader />}
               </>
             )}
           </HomeContainer>
-        </>
+        )
       )}
+
       <Footer page="main" />
-    </>
+    </HomeContainer>
   );
 };
 
-MainPage.propTypes = {
-  modal: PropTypes.bool,
-};
-export default MainPage;
+const SearchWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+`;
+
+export default SearchPage;
