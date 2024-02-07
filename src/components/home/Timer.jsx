@@ -11,18 +11,24 @@ import { Palette } from "@/styles/Palette";
  */
 
 const Timer = ({ endDate, username }) => {
+  let infiniteTime = changeTime(endDate);
   let time = remaindTime(endDate)[0];
   const [endTime, setEndTime] = useState(time);
   const [oneMinute, setOneMinute] = useState(false);
+  const [infinite, setInfinite] = useState(infiniteTime.et - infiniteTime.nt);
 
-  //타이머 함수
-  function remaindTime(endDate) {
+  function changeTime(endDate) {
     let now = new Date();
     let end = new Date(endDate);
 
     let nt = now.getTime();
     let et = end.getTime();
+    return { nt, et };
+  }
 
+  //타이머 함수
+  function remaindTime(endDate) {
+    let { nt, et } = changeTime(endDate);
     if (nt < et) {
       let sec = parseInt(et - nt) / 1000;
       let days = parseInt(sec / 60 / 60 / 24);
@@ -59,8 +65,11 @@ const Timer = ({ endDate, username }) => {
   return (
     <TimerStyle color={oneMinute}>
       <div>{username}</div>
-
-      <div className="timer"> 남은시간 {endTime}</div>
+      {infinite > 30 * 24 * 60 * 60 * 1000 ? (
+        <div>남은시간 ∞</div>
+      ) : (
+        <div className="timer"> 남은시간 {endTime}</div>
+      )}
     </TimerStyle>
   );
 };
