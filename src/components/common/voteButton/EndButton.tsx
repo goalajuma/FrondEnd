@@ -1,10 +1,10 @@
-import PropTypes from "prop-types";
 import { useState } from "react";
 import styled from "styled-components";
 import Alert from "../Alert";
 import { closeInquire } from "@/services/main";
 import Swal from "sweetalert2";
 import { useMutation } from "@tanstack/react-query";
+import { buttonProps } from "./ButtonLayout";
 
 /**
  * @param {object} props
@@ -12,7 +12,18 @@ import { useMutation } from "@tanstack/react-query";
  * @param {number} props.id 투표 id
  */
 
-const EndButton = ({ isOwner, id, active: initialActive, modal }) => {
+interface EndButtonProps extends buttonProps {
+  id: number;
+  modal?: boolean;
+  active: string;
+}
+
+const EndButton = ({
+  isOwner,
+  id,
+  active: initialActive,
+  modal,
+}: EndButtonProps) => {
   const [active, setActive] = useState(initialActive);
   const [alert, setIsAlert] = useState(false);
 
@@ -58,12 +69,7 @@ const EndButton = ({ isOwner, id, active: initialActive, modal }) => {
     </>
   );
 };
-EndButton.propTypes = {
-  isOwner: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
-  active: PropTypes.string.isRequired,
-  modal: PropTypes.bool,
-};
+
 const ButtonStyled = styled.button`
   width: 60px;
   height: 6px;

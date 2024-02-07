@@ -1,6 +1,5 @@
 import MainButton from "./MainButton";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
 /**
  * @param {object} props
@@ -12,6 +11,24 @@ import PropTypes from "prop-types";
  * @param {number} props.voteId 투표 id
  */
 
+export interface buttonProps {
+  changeVotes: (a: boolean, b: string) => void;
+  options?: [];
+  participate: boolean;
+  isOwner: boolean;
+  active: string;
+  voteId: number;
+}
+
+interface optionTypes {
+  optionName: string;
+  optionRatio: number;
+  optionCount: number;
+  image: string;
+  choice: boolean;
+  id: number;
+}
+
 const ButtonLayout = ({
   changeVotes,
   options,
@@ -19,11 +36,11 @@ const ButtonLayout = ({
   isOwner,
   active,
   voteId,
-}) => {
+}: buttonProps) => {
   return (
     <>
       <Container>
-        {options?.map((option, index) => {
+        {options?.map((option: optionTypes, index) => {
           return (
             <MainButton
               changeVotes={changeVotes}
@@ -46,14 +63,6 @@ const ButtonLayout = ({
   );
 };
 
-ButtonLayout.propTypes = {
-  changeVotes: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-  participate: PropTypes.bool.isRequired,
-  isOwner: PropTypes.bool.isRequired,
-  active: PropTypes.string.isRequired,
-  voteId: PropTypes.number.isRequired,
-};
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;

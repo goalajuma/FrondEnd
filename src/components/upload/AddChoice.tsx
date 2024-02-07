@@ -13,7 +13,7 @@ const AddChoice = () => {
     // 선택지 추가 버튼
     setOption((prop: OptionTypes[]) => {
       if (prop.length < 6) {
-        return [...prop, { name: "", image: "" }];
+        return [...prop, { name: "", image: null }];
       } else {
         return prop;
       }

@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { Palette } from "./Palette";
 
-export const MainButtonSt = styled.div`
+export const MainButtonSt = styled.div<{
+  choice: boolean;
+  border: boolean;
+}>`
   cursor: pointer;
   font-family: "NanumGothic";
   max-width: 295px;

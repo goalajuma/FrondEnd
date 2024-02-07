@@ -37,6 +37,7 @@ const VoteHead = ({
       }
     });
   }, [categoryValue, active]);
+  let end = new Date(endDate);
 
   return (
     <>
@@ -63,11 +64,7 @@ const VoteHead = ({
           ) : (
             <div className="voteTitle">
               <div className="voteNumber">{totalCount}명이 투표중입니다.</div>
-              {endDate > 30 * 24 * 60 * 60 ? (
-                <div>∞</div>
-              ) : (
-                <Timer endDate={endDate} username={username} />
-              )}
+              <Timer endDate={endDate} username={username} />
             </div>
           )}
         </VoteHeadCss>
